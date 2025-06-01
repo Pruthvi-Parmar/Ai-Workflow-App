@@ -4,7 +4,7 @@ import { inngest } from "../inngest/client";
 import jwt from "jsonwebtoken"
 import { json } from "express";
 
-const signup = async(req, res) => {
+export const signup = async(req, res) => {
     const { email, password, skills = []} = req.body
 
     try {
@@ -35,7 +35,7 @@ const signup = async(req, res) => {
     }
 }
 
-const login = async(req, res) => {
+export const login = async(req, res) => {
     const { email, password } = req.body
     
     try {
@@ -67,7 +67,7 @@ const login = async(req, res) => {
 
 }
 
-const logout = async(req, res) => {
+export const logout = async(req, res) => {
     try {
         const token = req.headers.authorization.split(" ")[1]
 
@@ -89,7 +89,7 @@ const logout = async(req, res) => {
     }
 }
 
-const updateUser = async(req, res) => {
+export const updateUser = async(req, res) => {
     const { email, skills = [], role } = req.body
 
     try {
@@ -119,7 +119,7 @@ const updateUser = async(req, res) => {
     }
 }
 
-const getUser  = async (req, res) => {
+export const getUser  = async (req, res) => {
     try {
         if(req.user.role !== "admin"){
             return res.status(400).json({error:"Forbidden"})

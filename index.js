@@ -8,6 +8,14 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+//Routes
+
+import userRoutes from "./routes/user.routes.js"
+
+app.use("/api/auth",userRoutes)
+
+//DB
+
 mongose
     .connect(process.env.MONGO_URL)
     .then(() => {
