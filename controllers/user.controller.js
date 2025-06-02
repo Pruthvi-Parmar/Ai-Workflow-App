@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
-import { User } from "../models/user.model";
-import { inngest } from "../inngest/client";
+import { User } from "../models/user.model.js";
+import { inngest } from "../inngest/client.js";
 import jwt from "jsonwebtoken"
 import { json } from "express";
 

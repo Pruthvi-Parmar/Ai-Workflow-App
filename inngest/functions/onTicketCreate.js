@@ -1,4 +1,4 @@
-import { inngest } from "../client"
+import { inngest } from "../client.js"
 import { NonRetriableError } from "inngest"
 import sendMail from "../../utils/mailer.js"
 import { Ticket } from "../../models/ticket.model.js"
@@ -87,7 +87,7 @@ export const onTicketCreate = inngest.createFunction(
             return { success: true }
     
         } catch (error) {
-            console.log("error running the strp  create",error.message);
+            console.log("error running the step create",error.message);
 
             return { success:false }
             

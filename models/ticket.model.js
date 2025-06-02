@@ -1,4 +1,4 @@
-import mongoose,{Shema} from 'mongoose';
+import mongoose from 'mongoose';
 
 const ticketSchema = new mongoose.Schema({
     title:{
