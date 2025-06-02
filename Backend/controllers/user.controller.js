@@ -6,12 +6,14 @@ import { json } from "express";
 
 export const signup = async(req, res) => {
     const { email, password, skills = []} = req.body
+    console.log(req.body);
+    
 
     try {
         const hashedPassword = bcrypt.hash(password,10);
         const user = await User.create({
             email,
-            hashedPassword,
+            password: (await hashedPassword).toString(),
             skills
         })
 
@@ -31,6 +33,8 @@ export const signup = async(req, res) => {
 
         res.json({user, token})
     } catch (error) {
+        console.log("error in signup", error);
+        
         res.status(500).json("error while signing up the user",error.message)
     }
 }
