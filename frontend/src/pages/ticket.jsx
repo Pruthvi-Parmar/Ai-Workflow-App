@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TicketDetailsPage() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { id } = useParams();
   const [ticket, setTicket] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  const user = useSelector((state) => state.auth.userData)
+
 
   const token = localStorage.getItem("token");
+  console.log("token id :id",token);
+  
 
   useEffect(() => {
     const fetchTicket = async () => {
@@ -21,6 +28,8 @@ export default function TicketDetailsPage() {
           }
         );
         const data = await res.json();
+        console.log(data.ticket);
+        
         if (res.ok) {
           setTicket(data.ticket);
         } else {
@@ -30,15 +39,15 @@ export default function TicketDetailsPage() {
         console.error(err);
         alert("Something went wrong");
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
     fetchTicket();
   }, [id]);
 
-  if (loading)
-    return <div className="text-center mt-10">Loading ticket details...</div>;
+  // if (loading)
+  //   return <div className="text-center mt-10">Loading ticket details...</div>;
   if (!ticket) return <div className="text-center mt-10">Ticket not found</div>;
 
   return (

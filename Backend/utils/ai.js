@@ -7,7 +7,7 @@ const analyzeTicket = async (ticket) => {
       apiKey: process.env.GEMINI_API_KEY,
     }),
     name: "AI Ticket Triage Assistant",
-    system: `You are an expert AI assistant that processes technical support tickets. 
+    system: `You are an expert AI assistant that processes technical support tickets.
 
 Your job is to:
 1. Summarize the issue.
@@ -23,9 +23,9 @@ IMPORTANT:
 Repeat: Do not wrap your output in markdown or code fences.`,
   });
 
-  const response =
-    await supportAgent.run(`You are a ticket triage agent. Only return a strict JSON object with no extra text, headers, or markdown.
-        
+  const response = await supportAgent.run(
+    `You are a ticket triage agent. Only return a strict JSON object with no extra text, headers, or markdown.
+
 Analyze the following support ticket and provide a JSON object with:
 
 - summary: A short 1-2 sentence summary of the issue.
@@ -36,10 +36,10 @@ Analyze the following support ticket and provide a JSON object with:
 Respond ONLY in this JSON format and do not include any other text or markdown in the answer:
 
 {
-"summary": "Short summary of the ticket",
-"priority": "high",
-"helpfulNotes": "Here are useful tips...",
-"relatedSkills": ["React", "Node.js"]
+  "summary": "Short summary of the ticket",
+  "priority": "high",
+  "helpfulNotes": "Here are useful tips...",
+  "relatedSkills": ["React", "Node.js"]
 }
 
 ---
@@ -47,18 +47,31 @@ Respond ONLY in this JSON format and do not include any other text or markdown i
 Ticket information:
 
 - Title: ${ticket.title}
-- Description: ${ticket.description}`);
+- Description: ${ticket.description}`
+  );
 
-  const raw = response.output[0].context;
+  const raw =
+    response?.output?.[0]?.context || response?.output?.[0]?.value || "";
+    console.log("raw",raw);
+    
 
   try {
-    const match = raw.match(/```json\s*([\s\S]*?)\s*```/i);
-    const jsonString = match ? match[1] : raw.trim();
-    return JSON.parse(jsonString);
+    const trimmed = raw.trim();
+
+    // If it's wrapped in ```json ... ```
+    const match = trimmed.match(/```json\s*([\s\S]*?)\s*```/i);
+    const jsonString = match ? match[1] : trimmed;
+
+    const parsed = JSON.parse(jsonString);
+    console.log("parse",parsed);
+    
+    return parsed;
   } catch (e) {
-    console.log("Failed to parse JSON from AI response" + e.message);
-    return null; // watch out for this
+    console.error("❌ Failed to parse JSON from AI response:", e.message);
+    console.log("📨 Raw AI response was:", raw);
+    return null;
   }
 };
+
 
 export default analyzeTicket;

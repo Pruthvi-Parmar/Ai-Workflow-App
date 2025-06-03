@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function CheckAuth({ children, protectedRoute }) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -12,20 +12,20 @@ function CheckAuth({ children, protectedRoute }) {
       if (!token) {
         navigate("/login");
       } else {
-        setLoading(false);
+        // setLoading(false);
       }
     } else {
       if (token) {
         navigate("/");
       } else {
-        setLoading(false);
+        // setLoading(false);
       }
     }
   }, [navigate, protectedRoute]);
 
-  if (loading) {
-    return <div>loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>loading...</div>;
+  // }
   return children;
 }
 

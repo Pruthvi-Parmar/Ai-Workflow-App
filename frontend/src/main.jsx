@@ -9,15 +9,20 @@ import TicketDetailsPage from "./pages/ticket.jsx";
 import Login from "./pages/login.jsx";
 import Signup from "./pages/signup.jsx";
 import Admin from "./pages/admin.jsx";
+import { Provider } from "react-redux";
+import store from "./store/store.js";
+import Navbar from "./components/navbar.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <Provider store={store}>
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route
           path="/login"
           element={
-            <CheckAuth protected={false}>
+            <CheckAuth protectedRoute={false}>
               <Login />
             </CheckAuth>
           }
@@ -25,7 +30,7 @@ createRoot(document.getElementById("root")).render(
         <Route
           path="/"
           element={
-            <CheckAuth protected={true}>
+            <CheckAuth protectedRoute={true}>
               <Tickets />
             </CheckAuth>
           }
@@ -33,16 +38,15 @@ createRoot(document.getElementById("root")).render(
         <Route
           path="/tickets/:id"
           element={
-            <CheckAuth protected={true}>
+            <CheckAuth protectedRoute={true}>
               <TicketDetailsPage />
             </CheckAuth>
           }
         />
-        
         <Route
           path="/signup"
           element={
-            <CheckAuth protected={false}>
+            <CheckAuth protectedRoute={false}>
               <Signup />
             </CheckAuth>
           }
@@ -50,12 +54,13 @@ createRoot(document.getElementById("root")).render(
         <Route
           path="/admin"
           element={
-            <CheckAuth protected={true}>
+            <CheckAuth protectedRoute={true}>
               <Admin />
             </CheckAuth>
           }
         />
       </Routes>
     </BrowserRouter>
+    </Provider>
   </StrictMode>
 );

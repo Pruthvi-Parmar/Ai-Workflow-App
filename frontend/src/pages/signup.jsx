@@ -29,7 +29,7 @@ export default function SignupPage() {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("userData", JSON.stringify(data.user));
         navigate("/");
       } else {
         alert(data.message || "Signup failed");

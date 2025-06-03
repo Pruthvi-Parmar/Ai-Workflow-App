@@ -1,16 +1,16 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../store/authSlice.js"
 
 export default function Navbar() {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.userData)
   const token = localStorage.getItem("token");
-  let user = localStorage.getItem("user");
-  if (user) {
-    user = JSON.parse(user);
-  }
   const navigate = useNavigate();
 
-  const logout = () => {
+  const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    dispatch(logout())
     navigate("/login");
   };
   return (
@@ -38,7 +38,7 @@ export default function Navbar() {
                 Admin
               </Link>
             ) : null}
-            <button onClick={logout} className="btn btn-sm">
+            <button onClick={handleLogout} className="btn btn-sm">
               Logout
             </button>
           </>

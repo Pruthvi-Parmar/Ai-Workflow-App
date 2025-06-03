@@ -4,24 +4,30 @@ import { Ticket } from "../models/ticket.model.js";
 export const createTicket = async (req, res) => {
     try {
         const { title, description } = req.body
+        console.log(req.body);
+        console.log(req.user);
+        
 
         if (!title || !description) {
             return res.status(400).json({message : "Title and Description are requried"})
         }
 
-        const newTicket = Ticket.create({
+        const newTicket = await Ticket.create({
             title,
             description,
             createdBy: req.user._id.toString()
         })
 
+        console.log(newTicket);
+        
+
         await inngest.send({
             name:"ticket/created",
             data:{
-                ticketId: newTicket._id.toString(),
-                title,
-                description,
-                createdBy: req.user._id.toString()
+                ticketId: newTicket._id,
+                // title,
+                // description,
+                // createdBy: req.user._id
             }
         })
 
@@ -62,7 +68,7 @@ export const getTickets = async (req, res) => {
     }
 }
 
-export const getTicket = async () => {
+export const getTicket = async (req,res) => {
 
     try {
         const user = req.user

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function Tickets() {
   const [form, setForm] = useState({ title: "", description: "" });
   const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const token = localStorage.getItem("token");
 
@@ -31,7 +31,7 @@ export default function Tickets() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     try {
       const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/tickets`, {
         method: "POST",
@@ -54,7 +54,7 @@ export default function Tickets() {
       alert("Error creating ticket");
       console.error(err);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -79,8 +79,8 @@ export default function Tickets() {
           className="textarea textarea-bordered w-full"
           required
         ></textarea>
-        <button className="btn btn-primary" type="submit" disabled={loading}>
-          {loading ? "Submitting..." : "Submit Ticket"}
+        <button className="btn btn-primary" type="submit">
+          Submit Ticket
         </button>
       </form>
 

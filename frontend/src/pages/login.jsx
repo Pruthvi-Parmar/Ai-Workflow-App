@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { login } from "../store/authSlice";
+import { useDispatch } from "react-redux"
 
 export default function LoginPage() {
+  const dispatch = useDispatch()
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,7 +29,8 @@ export default function LoginPage() {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("userData", JSON.stringify(data.user));
+        dispatch(login(data.user))
         navigate("/");
       } else {
         alert(data.message || "Login failed");
